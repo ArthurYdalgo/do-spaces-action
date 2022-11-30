@@ -78,7 +78,6 @@ const run = async () => {
 	const outputPath = config.cdnDomain ? `https://${ config.cdnDomain }/${ outDir }` : `https://${ config.spaceName }.${ config.spaceRegion }.digitaloceanspaces.com/${ outDir }`
 
 	core.info(`Files uploaded to ${ outputPath }`)
-	core.setOutput('output_url', outputPath)
 }
 
 run()
