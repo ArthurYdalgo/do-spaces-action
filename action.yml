@@ -14,6 +14,9 @@ inputs:
   space_region:
     description: 'Region of your DO space'
     required: true
+  content_encoding:
+    description: 'Content Encoding'
+    required: false
   access_key:
     description: 'DO access key'
     required: true
