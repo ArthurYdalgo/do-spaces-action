@@ -21,7 +21,7 @@ const config = {
 		key: 'space_region',
 		required: true
 	}),
-	contentEnconding: getInput({
+	contentEncoding: getInput({
 		key: 'content_encoding'
 	}),
 	accessKey: getInput({
