@@ -22,7 +22,8 @@ const config = {
 		required: true
 	}),
 	contentEncoding: getInput({
-		key: 'content_encoding'
+		key: 'content_encoding',
+		default: null,
 	}),
 	accessKey: getInput({
 		key: 'access_key',
