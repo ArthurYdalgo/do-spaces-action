@@ -25,7 +25,8 @@ const run = async () => {
 		region: config.spaceRegion,
 		access_key: config.accessKey,
 		secret_key: config.secretKey,
-		permission: config.permission
+		permission: config.permission,
+		contentEncoding: config.contentEncoding
 	})
 
 	const fileStat = await fs.promises.stat(config.source)
