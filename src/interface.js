@@ -32,6 +32,8 @@ class S3Interface {
 				ContentEncoding: this.contentEncoding
 			}
 
+			console.log({contentType: options.ContentType, contentEncoding: options.ContentEncoding});
+
 			this.s3.upload(options, (err, data) => {
 				if (err) {
 					return reject(err)
