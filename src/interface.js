@@ -7,6 +7,7 @@ class S3Interface {
 		this.bucket = config.bucket
 		this.permission = config.permission
 		this.contentEncoding = config.contentEncoding
+		this.contentType = config.contentType;
 
 		const spacesEndpoint = new AWS.Endpoint(`${ config.region }.digitaloceanspaces.com`)
 		const s3 = new AWS.S3({
@@ -29,7 +30,8 @@ class S3Interface {
 				Key: path.replace(/\\/g, '/'),
 				ACL: this.permission,
 				ContentType: lookup(file) || 'text/plain',
-				ContentEncoding: this.contentEncoding
+				ContentEncoding: this.contentEncoding,
+				ContentType: this.contentType
 			}
 
 			this.s3.upload(options, (err, data) => {
