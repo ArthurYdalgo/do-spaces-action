@@ -9,7 +9,7 @@ class S3Interface {
 		this.contentEncoding = config.contentEncoding
 		this.contentType = config.contentType;
 
-		const spacesEndpoint = new AWS.Endpoint(`${ config.region }.digitaloceanspaces.com`)
+		const spacesEndpoint = new AWS.Endpoint(`${ config.region }.digitaloceanspaces.com/`)
 		const s3 = new AWS.S3({
 			endpoint: spacesEndpoint,
 			accessKeyId: config.access_key,
