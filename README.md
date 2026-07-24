@@ -18,6 +18,7 @@ Use [do-spaces-action](https://github.com/ArthurYdalgo/do-spaces-action) to depl
 - Specify [output directory](#output-directory) on your Space
 - Automatic [versioning](#versioning) of your uploads
 - Use your [CDN endpoint](#cdn-domain) (custom domain)
+- Works with other S3-compatible providers via [custom endpoint](#custom-endpoint) (e.g. Wasabi)
 - Integrates with [GitHub deployments](#create-deployment-on-github)
 
 ## 📚 Usage
@@ -80,6 +81,7 @@ Here are all the inputs [do-spaces-action](https://github.com/ArthurYdalgo/do-sp
 | `versioning` | Enable versioning (either set it to true or specify path to package.json) - [more info](#versioning) | **No** | `false` |
 | `cdn_domain` | Custom domain pointing to your CDN endpoint - [more info](#cdn-domain) | **No** | N/A |
 | `permission` | Access permissions of the uploaded files - [more info](#file-permissions) | **No** | `public-read` |
+| `endpoint` | Custom S3-compatible endpoint, for use with providers other than DO Spaces - [more info](#custom-endpoint) | **No** | N/A |
 
 ### Authentication
 
@@ -125,6 +127,20 @@ Instead of outputting the normal DigitalOcean domain `https://SPACE.fra1.digital
 ### File permissions
 
 By default all uploaded files have their access permission set to `public-read`. This means that anyone can access them via their own Space URL. If you want to block public access, you can set `permission` to `private`.
+
+### Custom endpoint
+
+By default [do-spaces-action](https://github.com/ArthurYdalgo/do-spaces-action) connects to `SPACE_REGION.digitaloceanspaces.com`. If you want to upload to a different S3-compatible provider (e.g. Wasabi), set `endpoint` to that provider's endpoint pattern. Use `{region}` as a placeholder for the `space_region` value:
+
+```yml
+endpoint: 's3.{region}.wasabisys.com'
+```
+
+With `space_region: us-east-1`, this resolves to `s3.us-east-1.wasabisys.com`.
+
+`space_name` and `space_region` are still required and used to build the bucket/output URL. Leave `endpoint` empty to keep the DO Spaces default.
+
+[See example](#use-a-custom-s3-compatible-endpoint)
 
 ## 📖 Examples
 
@@ -247,6 +263,30 @@ jobs:
           space_region: ${{ secrets.SPACE_REGION }}
           source: src
           cdn_domain: cdn.example.com
+```
+
+### Use a custom S3-compatible endpoint
+
+This example uploads to a Wasabi bucket instead of DO Spaces.
+
+```yml
+name: Upload to Wasabi
+on:
+  release:
+    types: [created]
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - uses: ArthurYdalgo/do-spaces-action@v2
+        with:
+          access_key: ${{ secrets.WASABI_ACCESS_KEY }}
+          secret_key: ${{ secrets.WASABI_SECRET_KEY }}
+          space_name: my-bucket
+          space_region: us-east-1
+          endpoint: 's3.{region}.wasabisys.com'
+          source: src
 ```
 
 ### Create deployment on GitHub

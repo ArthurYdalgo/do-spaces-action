@@ -21,6 +21,10 @@ const config = {
 		key: 'space_region',
 		required: true
 	}),
+	endpoint: getInput({
+		key: 'endpoint',
+		default: null
+	}),
 	contentEncoding: getInput({
 		key: 'content_encoding',
 		default: null,

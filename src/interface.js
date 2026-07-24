@@ -7,9 +7,13 @@ class S3Interface {
 		this.bucket = config.bucket
 		this.permission = config.permission
 		this.contentEncoding = config.contentEncoding
-		this.contentType = config.contentType;
+		this.contentType = config.contentType
 
-		const spacesEndpoint = new AWS.Endpoint(`${ config.region }.digitaloceanspaces.com/`)
+		const endpointUrl = config.endpoint
+			? config.endpoint.replace('{region}', config.region)
+			: `${ config.region }.digitaloceanspaces.com`
+
+		const spacesEndpoint = new AWS.Endpoint(endpointUrl)
 		const s3 = new AWS.S3({
 			endpoint: spacesEndpoint,
 			accessKeyId: config.access_key,
@@ -21,7 +25,6 @@ class S3Interface {
 
 	async upload(file, path) {
 		return new Promise((resolve, reject) => {
-
 			const fileStream = fs.createReadStream(file)
 
 			const options = {
@@ -29,16 +32,12 @@ class S3Interface {
 				Bucket: this.bucket,
 				Key: path.replace(/\\/g, '/'),
 				ACL: this.permission,
-				ContentType: lookup(file) || 'text/plain',
-				ContentEncoding: this.contentEncoding,
-				ContentType: this.contentType
+				ContentType: this.contentType || lookup(file) || 'text/plain',
+				ContentEncoding: this.contentEncoding
 			}
 
 			this.s3.upload(options, (err, data) => {
-				if (err) {
-					return reject(err)
-				}
-
+				if (err) return reject(err)
 				resolve(data)
 			})
 		})

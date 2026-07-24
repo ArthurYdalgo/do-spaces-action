@@ -32,6 +32,9 @@ inputs:
   permission:
     description: 'DO secret key'
     required: false
+  endpoint:
+    description: 'Custom S3-compatible endpoint (overrides DO Spaces default). e.g. s3.wasabisys.com or s3.{region}.wasabisys.com'
+    required: false
 runs:
   using: 'node20'
   main: 'dist/index.js'
