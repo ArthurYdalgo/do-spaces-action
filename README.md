@@ -39,7 +39,7 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@master
-      - uses: ArthurYdalgo/do-spaces-action@v2
+      - uses: ArthurYdalgo/do-spaces-action@latest
         with:
           access_key: ${{ secrets.ACCESS_KEY}}
           secret_key: ${{ secrets.SECRET_KEY }}
